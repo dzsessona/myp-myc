@@ -1,0 +1,122 @@
+#!/bin/bash
+
+header(){
+	echo -e "\n\t╔════════════════════════════════════════════════════════╗"
+	echo -e   "\t║                 Diego Zambelli Sessona                 ║"
+	echo -e   "\t║             email:  diego.sessona@gmail.com            ║"
+	echo -e   "\t╠════════════════════════════════════════════════════════╣"
+	echo -e   "\t║    24/06/2013                                myc.sh    ║"
+	echo -e   "\t║                                                        ║"
+	echo -e   "\t║    Run one of your favourites commands(in list)        ║"
+	echo -e   "\t╚════════════════════════════════════════════════════════╝\n"
+}
+
+usage(){
+	echo -e "\nmyc = my commands = Organize and run your most used commands to improve your productivity!"
+	echo -e "\nUsage: myc [OPTION]"
+	echo -e "   or: myc [OPTION] PATH DESCRIPTION"
+	echo -e "\nMandatory arguments to long options are mandatory for short options too."
+    echo -e "  -h, --help                show this screen"
+    echo -e "  -r, --remove              remove a command from the list"
+    echo -e "  -a, --add                 add a command to the list\n"
+    echo -e "Examples: myc                                               show the list of commands you can run"
+    echo -e "          myc 1                                             change the current folder to the first path in the list"
+    echo -e "          myc -r 1                                          remove the first path from the list"
+    echo -e "          myc -r                                            show the list of paths so you can remove one"
+    echo -e "          myc -a  \"tree -L 2 -d\" \"show three levels\"        add the command \"tree -L 2 -d\" and description \"show three levels\" to the end of the list\n"
+
+}
+
+NAMES=()
+
+PATHS=()
+
+load(){
+	if [ ! -f "/home/$USER/.tmpcommands" ]
+	then
+		touch /home/$USER/.tmpcommands
+	fi
+	IFS=$'\t'
+	while read path name
+	do  
+		PATHS+=("${path}")
+		NAMES+=("${name}")
+	done < "/home/$USER/.tmpcommands"
+}
+
+show_options(){
+	echo -e -e "\n  Your most used commands:\n"
+	for (( i=1; i<=${#PATHS[@]}; i++)); do
+    	echo -e "  $i) ${NAMES[${i}-1]}\t\t(${PATHS[${i}-1]})"  
+	done 
+}
+
+runcommand(){
+	max=${#PATHS[@]}
+	max=$[max + 1]
+	if [[ ${choice} -gt 0 && ${choice} -lt ${max} ]]
+	then
+	  	echo -e "  command: ${PATHS[${choice}-1]} \n"
+	  	eval ${PATHS[${choice}-1]}
+	else
+	  	echo -e "\n  Invalid option, please enter a number between 1 and ${#PATHS[@]} \n"
+	fi
+}
+
+removeit(){
+	max=${#PATHS[@]}
+	max=$[max + 1]
+	if [[ ${choice} -gt 0 && ${choice} -lt ${max} ]]
+	then
+	  	sed -i ${choice}d /home/$USER/.tmpcommands
+	else
+	  	echo -e "\n  Invalid option, please enter a number between 1 and ${#PATHS[@]} \n"
+	fi
+}
+
+
+# show the help
+###############
+if [ "$1" == "help" ] || [ "$1" == "--help" ] || [ "$1" == "-h" ]
+	then
+		usage
+		return
+fi
+
+# add a path
+############
+if [ "$1" == "add" ] || [ "$1" == "-a" ]
+  then 
+  	if [ $# -eq 3 ]
+		then
+		  	echo "$2"$'\t'"$3" >> /home/$USER/.tmpcommands
+		else
+			echo "Show help"
+	fi
+  	return
+fi
+
+load
+choice=0
+
+# remove path
+############
+if [ "$1" == "remove" ] || [ "$1" == "-r" ]
+  then 
+  	show_options
+	echo -e -n "\n  Please choose an option to delete: "
+	read choice
+	removeit
+  	return
+fi
+
+if [ $# -eq 0 ]
+	then
+	show_options
+	echo -e -n "\n  Please choose an option: "
+	read choice
+	runcommand
+else
+	let choice=$1
+	runcommand
+fi
