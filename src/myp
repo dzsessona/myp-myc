@@ -22,8 +22,8 @@ usage(){
     echo -e "Examples: myp                             show the list of paths to change the current directory to"
     echo -e "          myp 1                           change the current folder to the first path in the list"
     echo -e "          myp -r                          show the list of paths so you can remove one"
-    echo -e "          myp -a /foo \"the folder\"        add the path /foo and description \"the folder\" to the end of the list\n"
-
+    echo -e "          myp -a /foo \"the folder\"        add the path /foo and description \"the folder\" to the end of the list"
+    echo -e "          myp -a \`pwd\` \"desc folder\"      add the current path and description to the end of the list\n" 
 }
 
 NAMES=()
