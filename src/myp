@@ -31,22 +31,22 @@ NAMES=()
 PATHS=()
 
 load(){
-	if [ ! -f "/home/$USER/.tmpplaces" ]
+	if [ ! -f "$HOME/.tmpplaces" ]
 	then
-		touch /home/$USER/.tmpplaces
+		touch $HOME/.tmpplaces
 	fi
 	IFS=$'\t'
 	while read path name
 	do  
 		PATHS+=("${path}")
 		NAMES+=("${name}")
-	done < "/home/$USER/.tmpplaces"
+	done < "$HOME/.tmpplaces"
 }
 
 show_options(){
 	echo -e -e "\n  Your most used places:\n"
 	for (( i=1; i<=${#PATHS[@]}; i++)); do
-    	echo -e "  $i) ${NAMES[${i}-1]}\t\t(${PATHS[${i}-1]})"  
+	printf "  %-4s%-50s%s\n" "${i})" ${NAMES[${i}-1]} "(${PATHS[${i}-1]})"
 	done 
 }
 
@@ -70,7 +70,7 @@ removeit(){
 	max=$[max + 1]
 	if [[ ${choice} -gt 0 && ${choice} -lt ${max} ]]
 	then
-	  	sed -i ${choice}d /home/$USER/.tmpplaces
+	  	sed -i ${choice}d $HOME/.tmpplaces
 	else
 	  	echo -e "\n  Invalid option, please enter a number between 1 and ${#PATHS[@]} \n"
 	fi
@@ -91,7 +91,7 @@ if [ "$1" == "add" ] || [ "$1" == "-a" ]
   then 
   	if [ $# -eq 3 ]
 		then
-		  	echo "$2"$'\t'"$3" >> /home/$USER/.tmpplaces
+		  	echo "$2"$'\t'"$3" >> $HOME/.tmpplaces
 		else
 			echo "Show help"
 	fi
