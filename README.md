@@ -1,4 +1,3 @@
-
      
                                                            
        _____ ___.__.______             _____ ___.__. ____  
@@ -14,7 +13,7 @@
 * [How does it work](#how-does-it-work)
        * [myc for commands](#myc-for-commands)
        * [myp for paths](#myp-for-paths)
-* [Installattion](#installation)
+* [Installation](#installation)
 
 
 ## What is it
@@ -33,6 +32,24 @@ running the script again. Easier to give an example than trying to explain it ma
 
 ### myc for commands
 
+Suppose you wuite often use the program 'tree' to see what is the structure of a particular folder. By default it prints on the
+screen a nice tree of all the folders and files. I know that the flag -L number defines the number of levels to be displayed, and -d 
+actually does not list the files but only the folders. The problem is that I never remember those flags. So I add it to myc as follow:
+
+```
+myc -a  "tree -L 2 -d" "show three levels"
+```
+
+![myc image](./README_IMAGES/mycommands.png)
+
+Now at any time I can type `myc` in my console, and if then I answer 1 the command is selected... but... Wait, nothing happened? 
+
+No, at this point the console does not run the command, but it is saved in your history, so if you just press the up arrow in your
+keyboard the command pops up and is ready to be modified or executed. This script behaves like that to prevent that dangerous
+commands are run by mistakes, and also allow you to edit the command before running it. Anyway, to change this behaviour you can 
+comment line 131 and 134 and uncomment 130 and 136. In that way as soon as you answer the menu, the command will be launched immediately, but be careful,
+**it assumes that you know what you are doing...**
+
 ### myp for paths
 
 Suppose you have a very long folder, for example `/Users/dzsessona/this/is/a/very/long/path/containg/files/that/i/use/often` 
@@ -47,3 +64,6 @@ Now you can simply type in your console `myp` and you get the list of your favou
 in your directory containing your most used files. (Note that in this example i previously added Downloads and Document).
 
 ![myp image](./README_IMAGES/myplaces.png)
+
+Now, suppose that with time you have a list of 20 favorite places, but you are really using this one a lot, you could simply 
+type `myp 3` and you would jump directly to that folder.
