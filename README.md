@@ -67,3 +67,28 @@ in your directory containing your most used files. (Note that in this example i 
 
 Now, suppose that with time you have a list of 20 favorite places, but you are really using this one a lot, you could simply 
 type `myp 3` and you would jump directly to that folder.
+
+## Installation
+
+To install the scripts simply clone the repository somewhere in your system and than add the aliases (in this example the scripts are in /Users/dzsessona/scripts/myp-myc/)
+
+```
+alias myp='. /Users/dzsessona/scripts/myp-myc/myp'
+alias myc='. /Users/dzsessona/scripts/myp-myc/myc'
+```
+
+Now you can use `myc` or `myp` anywhere.
+
+P.S. I didn't package the scripts as a debian or other packages because in order to change the current folder in console the
+scripts need to be executed in the current thread, not a child. That is why of the dot in the alias. If anyone knows a better
+solution please let me know. 
+
+## Tricks
+
+You can delete some commands or folder just typing `myx -r`.
+
+You can reoder your preferences just by reordering the lines in .tmpplaces and .tmpcommands manually (remember you need and empty line at the end)
+
+You can add the current folder to the list of command by `myp -a 'pwd' "description"`
+
+View the help by running `myc -h` or `myp -h`
