@@ -14,7 +14,7 @@
        * [myc for commands](#myc-for-commands)
        * [myp for paths](#myp-for-paths)
 * [Installation](#installation)
-
+* [Tricks](#tricks)
 
 ## What is it
 
