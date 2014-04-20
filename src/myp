@@ -70,7 +70,7 @@ removeit(){
 	max=$[max + 1]
 	if [[ ${choice} -gt 0 && ${choice} -lt ${max} ]]
 	then
-	  	sed -i ${choice}d $HOME/.tmpplaces
+	  	sed -i '' ${choice}d $HOME/.tmpplaces
 	else
 	  	echo -e "\n  Invalid option, please enter a number between 1 and ${#PATHS[@]} \n"
 	fi
